@@ -1,5 +1,6 @@
 'use client'
 import { addToCart, removeFromCart } from "@/lib/features/cart/cartSlice";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 const Counter = ({ productId }) => {
@@ -14,6 +15,9 @@ const Counter = ({ productId }) => {
 
     const removeFromCartHandler = () => {
         dispatch(removeFromCart({ productId }))
+        if(cartItems[productId] == 1){
+            toast.error('removed item from cart')
+        }
     }
 
     return (

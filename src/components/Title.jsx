@@ -8,7 +8,7 @@ const Title = ({ title, description, visibleButton = true, href = '' }) => {
     return (
         <div className='flex flex-col items-center'>
             <h2 className='text-2xl font-semibold text-[var(--text-gray)]'>{title}</h2>
-            <Link href={href} className='flex items-center gap-5 text-sm text-[var(--light-gray)] mt-2'>
+            <Link href={href} className='flex items-center gap-5 text-sm text-[var(--text-gray)] mt-2'>
                 <p className='max-w-lg text-center'>{description}</p>
                 {visibleButton && <button className='text-green-500 flex items-center gap-1'>View more <ArrowRight size={14} /></button>}
             </Link>

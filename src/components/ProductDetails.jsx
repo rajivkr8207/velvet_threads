@@ -7,6 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Counter from "./Counter";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const ProductDetails = ({ product }) => {
 
@@ -22,10 +23,11 @@ const ProductDetails = ({ product }) => {
 
     const addToCartHandler = () => {
         dispatch(addToCart({ productId }))
+        toast.success('add to cart successfull.')
     }
 
     const averageRating = product.rating.reduce((acc, item) => acc + item.rating, 0) / product.rating.length;
-    
+
     return (
         <div className="flex max-lg:flex-col gap-12">
             <div className="flex max-sm:flex-col-reverse gap-3">
@@ -48,9 +50,9 @@ const ProductDetails = ({ product }) => {
                     ))}
                     <p className="text-sm ml-3 text-slate-500">{product.rating.length} Reviews</p>
                 </div>
-                <div className="flex items-start my-6 gap-3 text-2xl font-semibold text-slate-800">
-                    <p> {currency}{product.price} </p>
-                    <p className="text-xl text-slate-500 line-through">{currency}{product.mrp}</p>
+                <div className="flex items-start flex-col my-6 gap-1 text-2xl font-semibold text-slate-800">
+                    <p className="text-4xl"> {currency}{product.price} </p>
+                    <p className="text-sm text-slate-500 line-through">{currency}{product.mrp}</p>
                 </div>
                 <div className="flex items-center gap-2 text-slate-500">
                     <TagIcon size={14} />

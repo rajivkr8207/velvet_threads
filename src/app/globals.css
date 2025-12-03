@@ -15,8 +15,8 @@
 
 :root{
   --primary-white: #fff;
-  --button-purple: #615FFF;
-  --button-purple-hover: #4F39F6;
+  --button-purple: #9810FA;
+  --button-purple-hover: #8200DB;
   --text-gray:#45556C; 
   --light-gray:#F1F5F9;
   --hover-marqee: #45556C;
@@ -58,3 +58,4 @@
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out;
 }
+

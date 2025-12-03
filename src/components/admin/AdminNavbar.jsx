@@ -12,6 +12,9 @@ const AdminNavbar = () => {
             </Link>
             <div className="flex items-center gap-3">
                 <p>Hi, Admin</p>
+                <Link href='/admin/profile/23' className="py-1  px-3  bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
+                Profile
+                </Link>  
             </div>
         </div>
     )
