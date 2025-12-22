@@ -29,12 +29,15 @@ export default function NotificationBell() {
 
     const unreadCount = notifications.filter(n => !n.read).length;
    
+
+    document.querySelector('#nofication').addEventListener('click',()=>{
+        setOpen(!open)
+    })
     return (
         <div className="relative">
             {/* Bell Icon */}
             <button
                 id="nofication"
-                onClick={() => setOpen(!open)}
                 className="relative p-2 rounded-full hover:bg-gray-100"
             >
                 <Bell size={24} />
