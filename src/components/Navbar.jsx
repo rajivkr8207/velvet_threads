@@ -46,11 +46,9 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Mobile Search */}
       {mobilesearch && (
         <div className="lg:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-md px-5 py-12 animate-fadeIn">
 
-          {/* Close Button */}
           <button
             className="absolute top-2 right-2 text-white z-40"
             onClick={() => setMobilesearch(false)}
@@ -58,7 +56,6 @@ const Navbar = () => {
             <X size={32} />
           </button>
 
-          {/* Search Box */}
           <form
             onSubmit={handleSearch}
             className="flex items-center gap-3 bg-white/90 backdrop-blur-sm px-5 py-3 rounded-full shadow-md"
@@ -177,8 +174,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            {/* Login */}
-            <button className="px-6 py-2 bg-[var(--button-purple)] hover:bg-[var(--button-purple-hover)] transition text-white rounded-full">
+            <button onClick={()=> router.push('/login')} className="px-6 py-2 bg-[var(--button-purple)] hover:bg-[var(--button-purple-hover)] transition text-white rounded-full">
               Login
             </button>
           </div>
@@ -246,7 +242,7 @@ const Navbar = () => {
             </Link>
 
             {/* Login Button */}
-            <button className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full mt-4">
+            <button onClick={()=> router.push('/login')} className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full mt-4">
               Login
             </button>
           </div>

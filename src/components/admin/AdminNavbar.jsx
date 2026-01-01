@@ -14,9 +14,7 @@ const AdminNavbar = () => {
                 </p>
             </Link>
             <div className="flex items-center gap-3">
-                <button className="py-1  px-3  text-purple-600  rounded-lg">
                     <NotificationBell />
-                </button>
                 <p>Hi, Admin</p>
                 <Link href='/admin/profile/23' className="py-1  px-3  bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
                     Profile
