@@ -11,7 +11,7 @@ export default function ProfilePage() {
     <div className="">
       
       {/* Profile Header */}
-      <div className="max-w-4xl mx-auto bg-white/70 backdrop-blur-lg shadow-xl rounded-3xl p-8 mt-10">
+      <div className="max-w-4xl mx-auto bg-white/70 backdrop-blur-lg border rounded-3xl p-8 mt-10">
         
         {/* Top Section */}
         <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -79,7 +79,7 @@ export default function ProfilePage() {
 
         {/* Actions */}
         <div className="mt-10 flex flex-col sm:flex-row justify-between gap-4">
-          <Link href='/profile/edit/23' className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-300 rounded-full shadow hover:shadow-md transition">
+          <Link href='/profile/edit/23' className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-300 rounded-full  transition">
             Edit Profile
           </Link>
 

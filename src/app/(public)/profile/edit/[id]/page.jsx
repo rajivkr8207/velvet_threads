@@ -36,10 +36,7 @@ const handleChange = (e) => {
   }
 
   return (
-    <div className="">
-
-      {/* Container */}
-      <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl shadow-xl rounded-3xl p-8 mt-10 border border-white/30">
+      <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl rounded-3xl p-8 mt-10 border ">
 
         {/* Back Button */}
         <Link href="/profile/23" className="flex items-center gap-2 text-gray-600 mb-5 hover:text-black transition">
@@ -118,12 +115,12 @@ const handleChange = (e) => {
 
             <Link
               href="/profile/23"
-              className="w-full sm:w-auto px-6 py-3 bg-gray-200 rounded-full text-gray-700 shadow hover:shadow-md transition"
+              className="w-full sm:w-auto px-6 py-3 bg-gray-200 rounded-full text-gray-700  transition"
             >
               Cancel
             </Link>
 
-            <button type="submit" className="w-full sm:w-auto px-8 py-3 bg-[var(--button-purple)] hover:bg-[var(--button-purple-hover)] text-white rounded-full shadow transition">
+            <button type="submit" className="w-full sm:w-auto px-8 py-3 bg-[var(--button-purple)] hover:bg-[var(--button-purple-hover)] text-white rounded-full transition">
               Save Changes
             </button>
 
@@ -131,6 +128,5 @@ const handleChange = (e) => {
         </form>
 
       </div>
-    </div>
   );
 }
