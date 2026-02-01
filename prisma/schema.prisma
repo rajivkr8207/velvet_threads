@@ -5,24 +5,37 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
+
 
 
 model User {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  email           String   @unique
-  password        String
-  isVerified      Boolean  @default(false)
-  verifyToken     String?
-  verifyTokenExp  DateTime?
-  createdAt       DateTime @default(now())
+  id                         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username                   String   @unique
+  email                      String   @unique
+  fullName                   String
+  mobileNo                   String?
+  password                   String
+  isVerified                 Boolean  @default(false)
+  isAdmin                    Boolean  @default(false)
+  verifyToken                String?
+  verifyTokenExp             DateTime?
+  forgotPasswordToken        String?
+  forgotPasswordTokenExpire  DateTime?
+  createdBy                  String?
+  updatedBy                  String?
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
 }
+
+
 model Product {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
