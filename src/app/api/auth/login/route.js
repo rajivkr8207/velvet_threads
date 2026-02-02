@@ -61,7 +61,7 @@ export async function POST(req) {
             message: "login successful",
             success: true
         })
-        response.cookies.set("xyztoken", token, {
+        response.cookies.set(process.env.COOKIE_SECRET, token, {
             httpOnly: true,
         })
         return response;

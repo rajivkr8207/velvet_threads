@@ -6,7 +6,7 @@ export async function GET() {
             message: "logout successfull",
             success: true
         })
-        res.cookies.set("xyztoken", "", {
+        res.cookies.set(process.env.COOKIE_SECRET, "", {
             httpOnly: true,
             expires: new Date(0)
         })

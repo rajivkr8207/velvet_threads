@@ -43,7 +43,7 @@ export async function POST(req) {
     const verifyToken = hashtoken;
     const verifyTokenExp = new Date(Date.now() + 15 * 60 * 1000); // 15 min
 
-    const user = await prisma.User.create({
+    const user = await prisma.user.create({
       data: {
         username,
         email,
@@ -56,7 +56,7 @@ export async function POST(req) {
         isAdmin: false,
       },
     });
-    await sendemail({ email, emailtype: "VERIFY" })
+    await sendemail({ email, emailtype: "VERIFY", hashtoken: verifyToken })
 
     return NextResponse.json(
       {

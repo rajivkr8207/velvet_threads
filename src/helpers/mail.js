@@ -1,32 +1,7 @@
-import bcrypt from 'bcryptjs'
 import * as nodemailer from 'nodemailer';
-import { Transporter } from 'nodemailer';
 
-import { prisma } from "@/lib/prisma";
-
-export const sendemail = async ({ email, emailtype }) => {
+export const sendemail = async ({ email, emailtype, hashtoken }) => {
     try {
-        const hashtoken = await bcrypt.hash(email.toString(), 10)
-
-        if (emailtype == "VERIFY") {
-            await prisma.User.update({
-                where: {
-                    email: email,
-                }, data: {
-                    verifyToken: hashtoken,
-                    verifyTokenExp: Date.now() + 3600000
-                },
-            })
-        } else if (emailtype == "RESET") {
-            await prisma.User.update({
-                where: {
-                    email: email,
-                }, data: {
-                    forgotPasswordToken: hashtoken,
-                    forgotPasswordTokenExpire: Date.now() + 3600000
-                },
-            })
-        }
         const transport = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
             port: 587,
@@ -42,7 +17,7 @@ export const sendemail = async ({ email, emailtype }) => {
             to: email,
             subject: email == "VERIFY" ? "verify your email" : "Reset your password",
             html: `
-      <h2>Email Verification</h2>
+      <h2>${email == "VERIFY" ? 'Email Verification' : 'Reset your password'}</h2>
       <p>Click the link below to ${emailtype} your email:</p>
 
       <a href="${process.env.DOMAIN}/${emailtype == "VERIFY" ? "verifyemail" : "resetpassword/confirm"}?token=${hashtoken}">Click here</a> <p> to ${emailtype === "VERIFY" ? "verify your email" : "reset your password"

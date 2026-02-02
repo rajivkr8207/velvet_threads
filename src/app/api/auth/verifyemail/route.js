@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function POST(req) {
+export async function GET(req) {
     try {
-        const { token } = await req.json();
-
+        const { searchParams } = new URL(req.url);
+        const token = searchParams.get("token");
         if (!token) {
             return NextResponse.json(
                 { message: "Verification token is required" },

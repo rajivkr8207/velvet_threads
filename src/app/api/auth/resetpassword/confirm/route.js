@@ -27,7 +27,7 @@ export async function POST(req) {
             where: {
                 forgotPasswordToken: token,
                 forgotPasswordTokenExpire: {
-                    gt: new Date(), 
+                    gt: new Date(),
                 },
             },
         });

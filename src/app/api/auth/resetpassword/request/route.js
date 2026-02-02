@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendemail } from "@/helpers/mail";
-
+import bcrypt from "bcryptjs";
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -16,7 +16,7 @@ export async function POST(req) {
 
     const user = await prisma.user.findFirst({
       where: {
-         email: email 
+        email: email
       },
     });
 
@@ -27,7 +27,7 @@ export async function POST(req) {
       );
     }
 
-    const resetToken =await bcrypt.hash(email.toString(), 10);
+    const resetToken = await bcrypt.hash(email.toString(), 10);
     const resetTokenExpire = new Date(Date.now() + 15 * 60 * 1000); // 15 min
 
     await prisma.user.update({
@@ -38,8 +38,8 @@ export async function POST(req) {
       },
     });
 
-    await sendemail({ email: user.email, emailtype: "RESET" })
-    
+    await sendemail({ email: user.email, emailtype: "RESET", hashtoken: resetToken })
+
     return NextResponse.json(
       {
         message: "reset link will be sent",

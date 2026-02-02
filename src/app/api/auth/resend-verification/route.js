@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendemail } from "@/helpers/mail";
-
+import bcrypt from "bcryptjs";
 export async function POST(req) {
     try {
         const { email } = await req.json();
@@ -34,7 +34,6 @@ export async function POST(req) {
             );
         }
 
-        // 3️⃣ Generate NEW token (overwrite old)
         const verifyToken = await bcrypt.hash(email.toString(), 10);
         const verifyTokenExp = new Date(Date.now() + 15 * 60 * 1000); // 15 min
 
@@ -46,9 +45,7 @@ export async function POST(req) {
             },
         });
 
-        // 4️⃣ Send email (for now just log)
-
-        await sendemail({ email: user.email, emailtype: "VERIFY" })
+        await sendemail({ email: user.email, emailtype: "VERIFY", hashtoken: verifyToken })
         return NextResponse.json(
             { message: "Verification email sent again" },
             { status: 200 }
