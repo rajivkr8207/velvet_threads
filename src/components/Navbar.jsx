@@ -1,54 +1,53 @@
 "use client";
 
+import { logoutUser } from "@/lib/features/auth/auth.thunk";
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
-import {  useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobilesearch, setMobilesearch] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setMobilesearch(false)
+    setMobilesearch(false);
     router.push(`/shop?search=${search}`);
   };
-  const cartCount = useSelector(state => state.cart.total)
-
+  const cartCount = useSelector((state) => state.cart.total);
 
   const navlinks = [
-    {
-      name: 'home',
-      links: '/'
-    },
-    {
-      name: 'shop',
-      links: '/shop'
-    }, {
-      name: 'admin',
-      links: '/admin'
-    }, {
-      name: 'contact',
-      links: '/contact'
-    }, {
-      name: 'profile',
-      links: '/profile/23'
-    },
-    {
-      name: 'login',
-      links: '/login'
-    },
-  ]
+    { name: "home", links: "/" },
+    { name: "shop", links: "/shop" },
+  ];
+  // 🔐 logged-in user
+  if (user) {
+    navlinks.push({ name: "profile", links: "/profile" });
+
+    if (user.isAdmin) {
+      navlinks.push({ name: "admin", links: "/admin" });
+    } else {
+      navlinks.push({ name: "contact", links: "/contact" });
+      navlinks.push({ name: "my order", links: "/orders" });
+    }
+  } else {
+    navlinks.push({ name: "login", links: "/login" });
+  }
+  function handlelogout() {
+    dispatch(logoutUser());
+    router.push("/login");
+  }
 
   return (
     <>
       {mobilesearch && (
         <div className="lg:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-md px-5 py-12 animate-fadeIn">
-
           <button
             className="absolute top-2 right-2 text-white z-40"
             onClick={() => setMobilesearch(false)}
@@ -81,44 +80,52 @@ const Navbar = () => {
 
           {/* Suggestions Box */}
           <div className="mt-5 bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg space-y-4">
-
             {/* Recent Searches */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-600 mb-2">Recent Searches</h2>
+              <h2 className="text-sm font-semibold text-gray-600 mb-2">
+                Recent Searches
+              </h2>
               <div className="flex flex-wrap gap-2">
-                {["speaker", "Headphones", "Smart", "T-Shirt"].map((item, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setSearch(item);
-                      handleSearch({ preventDefault: () => { } });
-                    }}
-                    className="px-3 py-1 bg-gray-200 rounded-full text-sm capitalize hover:bg-gray-300"
-                  >
-                    {item}
-                  </button>
-                ))}
+                {["speaker", "Headphones", "Smart", "T-Shirt"].map(
+                  (item, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setSearch(item);
+                        handleSearch({ preventDefault: () => {} });
+                      }}
+                      className="px-3 py-1 bg-gray-200 rounded-full text-sm capitalize hover:bg-gray-300"
+                    >
+                      {item}
+                    </button>
+                  ),
+                )}
               </div>
             </div>
 
             {/* Popular Suggestions */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-600 mb-2">Popular Searches</h2>
+              <h2 className="text-sm font-semibold text-gray-600 mb-2">
+                Popular Searches
+              </h2>
               <ul className="space-y-2 text-gray-700">
-                {["Winter Jacket", "Bluetooth Speaker", "Nike Shoes", "Women Tops"].map(
-                  (item, i) => (
-                    <li
-                      key={i}
-                      className="hover:text-black cursor-pointer"
-                      onClick={() => {
-                        setSearch(item);
-                        handleSearch({ preventDefault: () => { } });
-                      }}
-                    >
-                      🔎 {item}
-                    </li>
-                  )
-                )}
+                {[
+                  "Winter Jacket",
+                  "Bluetooth Speaker",
+                  "Nike Shoes",
+                  "Women Tops",
+                ].map((item, i) => (
+                  <li
+                    key={i}
+                    className="hover:text-black cursor-pointer"
+                    onClick={() => {
+                      setSearch(item);
+                      handleSearch({ preventDefault: () => {} });
+                    }}
+                  >
+                    🔎 {item}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -127,13 +134,14 @@ const Navbar = () => {
 
       <nav className="w-full bg-white/30 backdrop-blur-md sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-
           {/* Logo */}
           <Link
             href="/"
             className="relative text-3xl font-bold text-slate-700 tracking-tight"
           >
-            <span className="text-green-600">{process.env.NEXT_STORE_NAME}</span>
+            <span className="text-green-600">
+              {process.env.NEXT_STORE_NAME}
+            </span>
             {process.env.NEXT_STORE_LAST_NAME}
             <span className="text-green-600 text-5xl">.</span>
 
@@ -145,10 +153,17 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8 capitalize text-gray-700">
             {navlinks.map((item, index) => {
-              return <Link key={index} className="hover:text-green-600 transition" href={item.links}>{item.name}</Link>
+              return (
+                <Link
+                  key={index}
+                  className="hover:text-green-600 transition"
+                  href={item.links}
+                >
+                  {item.name}
+                </Link>
+              );
             })}
             {/* <Link className="hover:text-green-600 transition" href="/profile/23">profile</Link> */}
-
 
             {/* Search */}
             <form
@@ -173,10 +188,21 @@ const Navbar = () => {
                 {cartCount}
               </span>
             </Link>
-
-            <button onClick={()=> router.push('/login')} className="px-6 py-2 bg-[var(--button-purple)] hover:bg-[var(--button-purple-hover)] transition text-white rounded-full">
-              Login
-            </button>
+            {user ? (
+              <button
+                onClick={() => handlelogout()}
+                className="px-6 py-2 bg-green-600 text-white rounded-full"
+              >
+                logout
+              </button>
+            ) : (
+              <button
+                onClick={() => router.push("/login")}
+                className="px-6 py-2 bg-purple-600 text-white rounded-full"
+              >
+                Login
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -184,7 +210,6 @@ const Navbar = () => {
             <button
               className="lg:hidden text-gray-800 z-10"
               onClick={() => setMobilesearch(true)}
-
             >
               <Search />
             </button>
@@ -200,33 +225,53 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <div
-          onClick={() => { setMobileOpen(false) }}
+          onClick={() => {
+            setMobileOpen(false);
+          }}
           className={`lg:hidden fixed top-0 right-0 w-full h-full     shadow-xl transform transition-all duration-300
         ${mobileOpen ? "translate-y-0 opacity-100" : "-translate-y-[600%] opacity-0"}
         `}
         >
           <div className="p-6 mt-16 z-20 flex flex-col gap-6 bg-white backdrop-blur-lg text-black">
-
-            <Link onClick={() => setMobileOpen(false)} href="/" className="text-xl font-semibold">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              href="/"
+              className="text-xl font-semibold"
+            >
               Home
             </Link>
 
-            <Link onClick={() => setMobileOpen(false)} href="/shop" className="text-xl font-semibold">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              href="/shop"
+              className="text-xl font-semibold"
+            >
               Shop
             </Link>
 
-            <Link onClick={() => setMobileOpen(false)} href="/admin" className="text-xl font-semibold">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              href="/admin"
+              className="text-xl font-semibold"
+            >
               Admin
             </Link>
 
-            <Link onClick={() => setMobileOpen(false)} href="/profile/12" className="text-xl font-semibold">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              href="/profile/12"
+              className="text-xl font-semibold"
+            >
               profile
             </Link>
 
-            <Link onClick={() => setMobileOpen(false)} href="/contact" className="text-xl font-semibold">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              href="/contact"
+              className="text-xl font-semibold"
+            >
               contact
             </Link>
-
 
             {/* Cart */}
             <Link
@@ -240,11 +285,16 @@ const Navbar = () => {
                 {cartCount}
               </span>
             </Link>
+            {user && <Link href="/dashboard">Dashboard</Link>}
+
+            {user?.isAdmin && <Link href="/admin">Admin</Link>}
+
+            {!user && <Link href="/login">Login</Link>}
 
             {/* Login Button */}
-            <button onClick={()=> router.push('/login')} className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full mt-4">
+            {/* <button onClick={()=> router.push('/login')} className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full mt-4">
               Login
-            </button>
+            </button> */}
           </div>
         </div>
       </nav>

@@ -7,7 +7,6 @@ export async function POST(req) {
     try {
         const body = await req.json();
         const { emailOrUsername, password } = body;
-
         if (!emailOrUsername || !password) {
             return NextResponse.json(
                 { message: "Email/Username and password are required" },
@@ -50,8 +49,6 @@ export async function POST(req) {
         const token = jwt.sign(
             {
                 id: user.id,
-                email: user.email,
-                username: user.username,
                 isAdmin: user.isAdmin,
             },
             process.env.JWT_SECRET,
