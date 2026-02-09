@@ -15,9 +15,9 @@ export const sendemail = async ({ email, emailtype, hashtoken }) => {
         const mailoptions = {
             from: process.env.MAIL_EMAIL,
             to: email,
-            subject: email == "VERIFY" ? "verify your email" : "Reset your password",
+            subject: emailtype == "VERIFY" ? "verify your email" : "Reset your password",
             html: `
-      <h2>${email == "VERIFY" ? 'Email Verification' : 'Reset your password'}</h2>
+      <h2>${emailtype == "VERIFY" ? 'Email Verification' : 'Reset your password'}</h2>
       <p>Click the link below to ${emailtype} your email:</p>
 
       <a href="${process.env.DOMAIN}/${emailtype == "VERIFY" ? "verifyemail" : "resetpassword/confirm"}?token=${hashtoken}">Click here</a> <p> to ${emailtype === "VERIFY" ? "verify your email" : "reset your password"

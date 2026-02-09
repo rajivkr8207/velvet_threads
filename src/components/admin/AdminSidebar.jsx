@@ -13,6 +13,7 @@ const AdminSidebar = () => {
     const sidebarLinks = [
         { name: 'Dashboard', href: '/admin', icon: HomeIcon },
         { name: 'Orders', href: '/admin/orders', icon: LayoutListIcon },
+        { name: 'category', href: '/admin/category', icon: SquarePlusIcon },        
         { name: 'Add product', href: '/admin/add-product', icon: SquarePlusIcon },        
         { name: 'Manage Product', href: '/admin/manage-product', icon: SquarePenIcon },
         { name: 'Users', href: '/admin/users', icon: Users },
